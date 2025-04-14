@@ -5,14 +5,14 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Transporter extends Model
+class CustomerAddress extends Model
 {
     protected $connection = 'sqlsrv';
-    protected $table = 'LGS3.Transporter';
+    protected $table = 'SLS3.CustomerAddress';
     protected $hidden = ['Version'];
 
-    public function party()
+    public function Address()
     {
-        return $this->belongsTo(Party::class, 'PartyID', 'PartyRef');
+        return $this->hasOne(Address::class, 'AddressID', 'AddressRef');
     }
 }
