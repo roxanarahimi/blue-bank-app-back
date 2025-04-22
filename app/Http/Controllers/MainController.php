@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\DB;
 
 class MainController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
         $dat = Tour::orderByDESC('TourID')
             ->where('State',2)
