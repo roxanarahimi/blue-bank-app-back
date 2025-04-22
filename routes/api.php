@@ -10,3 +10,7 @@ use Illuminate\Support\Facades\Route;
 Route::get('/tst', function (Request $request) {
     return 'hi!';
 });
+
+Route::controller(App\Http\Controllers\MainController::class)->group(function () {
+    Route::get('/get', 'index');
+});

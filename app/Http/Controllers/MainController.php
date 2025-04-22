@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\TourResource;
+use App\Http\Resources\TransporterResource;
 use App\Models\Tour;
 use App\Models\Transporter;
 use Illuminate\Http\Request;
@@ -12,21 +13,49 @@ class MainController extends Controller
 {
     public function index()
     {
+        $dat = Tour::orderByDESC('TourID')
+            ->where('State',2)
+//            ->whereDate('StartDate',date(today()))
+            ->whereDate('StartDate','>=', today()->subDays(1))
+            ->whereHas('invoices', function ($q) use ($request) {
+                $q->whereHas('order',function($d){
+                    $d->whereHas('orderItems');
+                });
+            })
+            ->where('FiscalYearRef', 1405)
+//            ->paginate(100);
+            ->take(10)->get();
+        return TourResource::collection($dat);
+
+        $dat = Tour::orderByDESC('TourID')
+            ->where('State',2)
+            ->whereHas('invoices', function ($q) use ($request) {
+                $q->whereHas('order',function($d){
+                    $d->whereHas('orderItems');
+                });
+//            $q->with('TourAssignmentItems', function ($z) use ($request) {
+//                $z->with('Assignment', function ($x) use ($request) {
+//                    $x->with('Transporter', function ($y) use ($request) {
+//                        $y->where('TelNumber', $request['mobile']);
+//                    });
+//                });
+//            });
+            })
+            ->where('FiscalYearRef', 1405)
+//            ->get();
+            ->paginate(100);
+        return TourResource::collection($dat);
+
+        $dat = Transporter::orderByDESC('TransporterID')->first();
+        return new TransporterResource($dat);
         $dat = Tour::orderByDESC('TourID')->whereHas('invoices')->paginate(50);
         return TourResource::collection($dat);
 
-        $dat = Transporter::orderByDesc('TransPorterID')->paginate(50);
-        $dat2 = Tour::orderByDesc('TourID')->paginate(50);
-        return [$dat,$dat2];
-
-       // gnr3.party
-       // slr3.invoice
-      //  dsd3.invoice
-      //  sls3.invoice
-
-       // $dat = DB::connection('sqlsrv')->table('LGS3.Transporter')->select("TransporterID")->first();
-       // $dat = DB::connection('sqlsrv')->table('DSD3.Tour')->select("TourID")->first();
-
+        $dat = DB::connection('sqlsrv')->table('LGS3.Transporter')->select("TransporterID")
+            ->first();
+        $dat = DB::connection('sqlsrv')->table('DSD3.Tour')->select("TourID")
+            ->first();
+        return $dat;
     }
     public function store(Request $request)
     {
