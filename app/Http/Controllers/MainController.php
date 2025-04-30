@@ -36,8 +36,8 @@ class MainController extends Controller
                     return response(new PartyResource2($p),200);
                 }
             }else{
-                $i = Tour::whereIn('TourID',[368690,367682])->get();
-                return TourResource::collection($i);
+//                $i = Tour::whereIn('TourID',[368690,367682])->get();
+//                return TourResource::collection($i);
                 $dat = Tour::orderByDESC('TourID')
                     ->where('State', 2)
                     ->whereDate('StartDate', date(today()))
