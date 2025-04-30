@@ -35,10 +35,10 @@ class MainController extends Controller
                     return response(new PartyResource2($p),200);
                 }
             }else{
-                $i = TourInvoice::where('TourRef',369196)->get();
-                return $i;
+//                $i = TourInvoice::where('TourRef',369196)->get();
+//                return $i;
                 $dat = Tour::orderByDESC('TourID')
-//                    ->where('State', 3)
+                    ->where('State', 2)
                     ->whereDate('StartDate', date(today()))
 //                    ->whereHas('TourAssignmentItem', function ($z) use ($request) {
 //                        $z->whereHas('Assignment', function ($x) use ($request) {
