@@ -33,6 +33,29 @@ class MainController extends Controller
                 }else{
                     return response(new PartyResource2($party),200);
                 }
+            }else{
+                $dat = Tour::orderByDESC('TourID')
+                    ->where('State', 2)
+                    ->whereDate('StartDate', date(today()))
+                    ->whereHas('TourAssignmentItem', function ($z) use ($request) {
+                        $z->whereHas('Assignment', function ($x) use ($request) {
+                            $x->whereHas('Transporter', function ($y) use ($request) {
+                                $y->WhereHas('Party');
+                            });
+                        });
+                    })
+                    ->whereHas('invoices', function ($q) use ($request) {
+                        $q->whereHas('order', function ($d) {
+                            $d->whereHas('orderItems');
+                        });
+
+                    })
+
+                    ->where('FiscalYearRef', 1405)
+//            ->get();
+                    ->paginate(100);
+
+                return TourResource::collection($dat);
             }
 
             $dat = Tour::orderByDESC('TourID')
