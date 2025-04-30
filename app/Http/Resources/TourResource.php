@@ -24,6 +24,7 @@ class TourResource extends JsonResource
             "State" => $this->State,
             "CreationDate" => (new DateController)->toPersian(date($this->CreationDate)),
             "Invoices" => TourInvoiceResource::collection($this->Invoices),
+            "TourAssignmentItem" => $this->TourAssignmentItem,
 
         ];
     }
