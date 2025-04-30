@@ -36,14 +36,14 @@ class MainController extends Controller
             }else{
                 $dat = Tour::orderByDESC('TourID')
                     ->where('State', 2)
-                    ->whereDate('StartDate', date(today()))
-                    ->whereHas('TourAssignmentItem', function ($z) use ($request) {
-                        $z->whereHas('Assignment', function ($x) use ($request) {
-                            $x->whereHas('Transporter', function ($y) use ($request) {
-                                $y->WhereHas('Party');
-                            });
-                        });
-                    })
+                    ->whereDate('StartDate', date(today()->subDays(2)))
+//                    ->whereHas('TourAssignmentItem', function ($z) use ($request) {
+//                        $z->whereHas('Assignment', function ($x) use ($request) {
+//                            $x->whereHas('Transporter', function ($y) use ($request) {
+//                                $y->WhereHas('Party');
+//                            });
+//                        });
+//                    })
                     ->whereHas('invoices', function ($q) use ($request) {
                         $q->whereHas('order', function ($d) {
                             $d->whereHas('orderItems');
