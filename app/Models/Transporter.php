@@ -11,15 +11,21 @@ class Transporter extends Model
     protected $table = 'LGS3.Transporter';
     protected $hidden = ['Version'];
 
-    public function party()
+    public function Party()
     {
-        return $this->belongsTo(Party::class, 'PartyID', 'PartyRef');
+        return $this->hasOne(Party::class,  'PartyID','PartyRef');
     }
     public function Assignments()
     {
         return $this->hasMany(Assignment::class,  'TransporterRef','TransporterID')
-            ->with('TourAssignmentItems',function ($q){
-                $q->with('Tour');
+            ->whereHas('TourAssignmentItem',function ($a){
+                $a->whereHas('Tour',function ($t){
+                    $t->where('State', 2);
+                    $t->whereDate('StartDate', date(today()));
+                });
             });
+//            ->with('TourAssignmentItem',function ($q){
+//                $q->with('Tour');
+//            });
     }
 }

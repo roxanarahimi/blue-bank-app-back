@@ -2,8 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Resources\PartyResource;
+use App\Http\Resources\PartyResource2;
 use App\Http\Resources\TourResource;
 use App\Http\Resources\TransporterResource;
+use App\Models\Party;
 use App\Models\Tour;
 use App\Models\Transporter;
 use Illuminate\Http\Request;
@@ -14,6 +17,47 @@ class MainController extends Controller
     public function index(Request $request)
     {
         try {
+            $party = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
+                ->whereHas('Transporter', function ($q) {
+                    $q->whereHas('Assignments');
+                })
+                ->first();
+
+            //if there is an error, check if 2 visitors with same data both have transporters assigned/
+
+//        return $party;
+
+
+
+            if(!$party){
+                $p = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
+                    ->whereHas('Transporter')->first();
+                return response(new PartyResource($p),200);
+            }else{
+                return response(new PartyResource2($party),200);
+            }
+            $dat = Tour::orderByDESC('TourID')
+                ->where('State', 2)
+                ->whereDate('StartDate', date(today()))
+                ->whereHas('TourAssignmentItem', function ($z) use ($request) {
+                    $z->whereHas('Assignment', function ($x) use ($request) {
+                        $x->whereHas('Transporter', function ($y) use ($request) {
+                            $y->WhereHas('Party');
+                        });
+                    });
+                })
+                ->whereHas('invoices', function ($q) use ($request) {
+                    $q->whereHas('order', function ($d) {
+                        $d->whereHas('orderItems');
+                    });
+
+                })
+
+                ->where('FiscalYearRef', 1405)
+//            ->get();
+                ->paginate(100);
+
+            return TourResource::collection($dat);
             $dat = Tour::orderByDESC('TourID')
                 ->where('State', 2)
 //            ->whereDate('StartDate',date(today()))
@@ -24,27 +68,10 @@ class MainController extends Controller
                     });
                 })
                 ->where('FiscalYearRef', 1405)
+//            ->paginate(100);
                 ->take(10)->get();
-            return response(new TourResource($dat), 200);
-
-            $dat = Tour::orderByDESC('TourID')
-                ->where('State', 2)
-                ->whereHas('invoices', function ($q) use ($request) {
-                    $q->whereHas('order', function ($d) {
-                        $d->whereHas('orderItems');
-                    });
-//            $q->with('TourAssignmentItems', function ($z) use ($request) {
-//                $z->with('Assignment', function ($x) use ($request) {
-//                    $x->with('Transporter', function ($y) use ($request) {
-//                        $y->where('TelNumber', $request['mobile']);
-//                    });
-//                });
-//            });
-                })
-                ->where('FiscalYearRef', 1405)
-//            ->get();
-                ->paginate(100);
             return TourResource::collection($dat);
+
 
             $dat = Transporter::orderByDESC('TransporterID')->first();
             return new TransporterResource($dat);

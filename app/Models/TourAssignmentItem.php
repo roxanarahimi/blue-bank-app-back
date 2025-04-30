@@ -12,11 +12,13 @@ class TourAssignmentItem extends Model
 
     public function Tour()
     {
-        return $this->hasOne(Tour::class, 'TourID', 'TourRef')->with('Invoices');
+        return $this->hasOne(Tour::class, 'TourID', 'TourRef')
+            ->where('State',2)
+            ->whereDate('StartDate',date(today()));
     }
     public function Assignment()
     {
-        return $this->belongsTo(Assignment::class, 'AssignmentID', 'AssignmentRef');
+        return $this->belongsTo(Assignment::class,  'AssignmentRef','AssignmentID');
     }
 
 }
