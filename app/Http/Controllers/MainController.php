@@ -8,6 +8,7 @@ use App\Http\Resources\TourResource;
 use App\Http\Resources\TransporterResource;
 use App\Models\Party;
 use App\Models\Tour;
+use App\Models\TourInvoice;
 use App\Models\Transporter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -34,6 +35,8 @@ class MainController extends Controller
                     return response(new PartyResource2($p),200);
                 }
             }else{
+                $i = TourInvoice::where('TourRef',369196)->get();
+                return $i;
                 $dat = Tour::orderByDESC('TourID')
 //                    ->where('State', 3)
                     ->whereDate('StartDate', date(today()))
@@ -54,6 +57,7 @@ class MainController extends Controller
 
                     ->where('FiscalYearRef', 1405)
                     ->paginate(100);
+
 
                 return TourResource::collection($dat);
             }
