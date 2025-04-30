@@ -36,7 +36,7 @@ class MainController extends Controller
                     return response(new PartyResource2($p),200);
                 }
             }else{
-                $i = TourInvoice::latest()->select('TourRef')->with('Tour')->take(10)->get();
+                $i = TourInvoice::orderByDESC('InvoiceID')->select('TourRef')->with('Tour')->take(10)->get();
                 return $i;
                 $dat = Tour::orderByDESC('TourID')
                     ->where('State', 2)
