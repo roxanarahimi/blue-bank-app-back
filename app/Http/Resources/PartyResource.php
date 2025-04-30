@@ -15,17 +15,16 @@ class PartyResource extends JsonResource
     public function toArray(Request $request): array
     {
         return [
-//            "PartyID" => $this->PartyID,
-//            "Number" => $this->Number,
+            "PartyID" => $this->PartyID,
+            "Number" => $this->Number,
             "FullName" => $this->FullName,
             "Mobile" => $this->Mobile,
 
-//            "TransporterID" => $this->Transporter->TransporterID,
-//            "TransporterCode" => $this->Transporter->Code,
-//            "TransporterName" => $this->Transporter->FirstName . ' ' . $this->Transporter->LastName,
-            "TransporterName" => '',
+            "TransporterID" => $this->Transporter->TransporterID,
+            "TransporterCode" => $this->Transporter->Code,
+            "TransporterName" => $this->Transporter->FirstName . ' ' . $this->Transporter->LastName,
 
-            "Tours" => [],
+            "Tours" => TourAssignmentsResource::collection($this->Transporter->Assignments),
         ];
     }
 }

@@ -26,17 +26,17 @@ class MainController extends Controller
 
                 //if there is an error, check if 2 visitors with same data both have transporters assigned/
 
-                if(!$party){
+                if($party){
+                    return response(new PartyResource($party),200);
+                }else{
                     $p = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
                         ->whereHas('Transporter')->first();
-                    return response(new PartyResource($p),200);
-                }else{
-                    return response(new PartyResource2($party),200);
+                    return response(new PartyResource2($p),200);
                 }
             }else{
                 $dat = Tour::orderByDESC('TourID')
-                    ->where('State', 2)
-                    ->whereDate('StartDate','>=', date(today()->subDays(5)))
+//                    ->where('State', 2)
+//                    ->whereDate('StartDate','>=', date(today()->subDays(5)))
                     ->whereHas('TourAssignmentItem', function ($z) use ($request) {
                         $z->whereHas('Assignment', function ($x) use ($request) {
                             $x->whereHas('Transporter', function ($y) use ($request) {
