@@ -6,7 +6,7 @@ use App\Http\Controllers\DateController;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class TourResource extends JsonResource
+class TourResource2 extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -22,9 +22,13 @@ class TourResource extends JsonResource
             "StartDate" => (new DateController)->toPersian($this->StartDate),
             "EndDate" => $this->$end,
             "State" => $this->State,
+            "Transporter" => $this->TourAssignmentItem?->Assignment?->Transporter?->FirstName.' '.$this->TourAssignmentItem?->Assignment?->Transporter?->LastName,
+            "PartyID" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->PartyID,
+            "Party" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->FullName,
+            "Mobile" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->Mobile,
             "CreationDate" => (new DateController)->toPersian(date($this->CreationDate)),
             "Invoices" => TourInvoiceResource::collection($this->Invoices),
-
+//            "TourAssignmentItem" => $this->TourAssignmentItem,
         ];
     }
 }

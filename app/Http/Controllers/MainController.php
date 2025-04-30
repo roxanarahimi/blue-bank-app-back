@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Resources\PartyResource;
 use App\Http\Resources\PartyResource2;
 use App\Http\Resources\TourResource;
+use App\Http\Resources\TourResource2;
 use App\Http\Resources\TransporterResource;
 use App\Models\Party;
 use App\Models\Tour;
@@ -59,7 +60,7 @@ class MainController extends Controller
                     ->paginate(100);
 
 
-                return TourResource::collection($dat);
+                return TourResource2::collection($dat);
             }
 
             $dat = Tour::orderByDESC('TourID')
