@@ -36,8 +36,8 @@ class MainController extends Controller
                     return response(new PartyResource2($p),200);
                 }
             }else{
-//                $i = TourInvoice::where('TourRef',369222)->get();
-//                return $i;
+                $i = TourInvoice::orderByDESC('InvoiceID')->with('Tour')->paginate(100);
+                return $i;
                 $dat = Tour::orderByDESC('TourID')
                     ->where('State', 2)
                     ->whereDate('StartDate', date(today()))
