@@ -35,7 +35,7 @@ class MainController extends Controller
                 }
             }else{
                 $dat = Tour::orderByDESC('TourID')
-//                    ->where('State', 3)
+                    ->where('State', 3)
 //                    ->whereDate('StartDate','>=', date(today()->subDays(5)))
 //                    ->whereHas('TourAssignmentItem', function ($z) use ($request) {
 //                        $z->whereHas('Assignment', function ($x) use ($request) {
