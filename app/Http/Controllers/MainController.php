@@ -44,12 +44,12 @@ class MainController extends Controller
 //                            });
 //                        });
 //                    })
-                    ->whereHas('invoices', function ($q) use ($request) {
-                        $q->whereHas('order', function ($d) {
-                            $d->whereHas('orderItems');
-                        });
-
-                    })
+//                    ->whereHas('invoices', function ($q) use ($request) {
+//                        $q->whereHas('order', function ($d) {
+//                            $d->whereHas('orderItems');
+//                        });
+//
+//                    })
 
                     ->where('FiscalYearRef', 1405)
                     ->paginate(100);
