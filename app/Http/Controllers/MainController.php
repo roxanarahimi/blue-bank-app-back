@@ -129,6 +129,7 @@ class MainController extends Controller
                         });
                     });
                 })
+                ->whereHas('Invoices')
 //                ->whereHas('invoices', function ($q) use ($request) {
 //                    $q->whereHas('order', function ($d) {
 //                        $d->whereHas('orderItems');
