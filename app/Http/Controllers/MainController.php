@@ -133,7 +133,7 @@ class MainController extends Controller
                     $q->whereHas('order');
                 })
                 ->where('FiscalYearRef', 1405)
-                ->paginate(100);
+                ->take(100)->get();
 
             return TourResource2::collection($dat);
 
