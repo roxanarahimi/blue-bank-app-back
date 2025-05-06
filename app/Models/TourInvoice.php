@@ -16,7 +16,8 @@ class TourInvoice extends Model
     }
     public function Order()
     {
-        return $this->belongsTo(Order::class, 'OrderRef', 'OrderID')
-            ->with('OrderItems')->with('Customer');
+        return $this->belongsTo(Order::class, 'OrderID', 'OrderRef')
+//            ->with('OrderItems')->with('Customer')
+            ;
     }
 }
