@@ -34,6 +34,8 @@ class TourInvoiceResource extends JsonResource
             "Latitude" => $this->Order?->Customer->CustomerAddress->Address->Latitude,
             "Longitude" => $this->Order?->Customer->CustomerAddress->Address->Longitude,
 
+            "Order" => $this->Order,
+
         ];
     }
 }
