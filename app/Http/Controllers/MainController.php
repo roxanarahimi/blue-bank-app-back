@@ -131,8 +131,8 @@ class MainController extends Controller
                 })
 //                ->whereHas('Invoices')
                 ->whereHas('Invoices', function ($q) use ($request) {
-                    $q->whereHas('Order', function ($d) {
-                        $d->whereHas('OrderItems');
+                    $q->whereHas('order', function ($d) {
+                        $d->whereHas('orderItems');
                     });
                 })
                 ->where('FiscalYearRef', 1405)
