@@ -18,10 +18,11 @@ class Order extends Model
     {
         return $this->hasMany(OrderItem::class, 'OrderRef', 'OrderID')
 //            ->with('Product')//
-            ->whereHas('Product', function ($q) {
-                $q->where('Name', 'like', '%نودالیت%');
-                $q->whereNot('Name', 'like', '%لیوانی%');
-            });
+//            ->whereHas('Product', function ($q) {
+//                $q->where('Name', 'like', '%نودالیت%');
+//                $q->whereNot('Name', 'like', '%لیوانی%');
+//            })
+            ;
     }
 
     public function Sum()
