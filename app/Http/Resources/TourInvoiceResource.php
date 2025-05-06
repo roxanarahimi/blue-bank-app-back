@@ -35,6 +35,7 @@ class TourInvoiceResource extends JsonResource
             "Longitude" => $this->Order?->Customer->CustomerAddress->Address->Longitude,
 
             "Order" => $this->Order,
+            "OrderItems" => $this->Order?->OrderItems,
 
         ];
     }
