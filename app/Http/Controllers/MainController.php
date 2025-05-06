@@ -49,11 +49,10 @@ class MainController extends Controller
                         });
                     })
 
-//                    ->whereHas('invoices', function ($q) use ($request) {
-//                        $q->whereHas('order', function ($d) {
-//                            $d->whereHas('orderItems');
+//                    ->whereHas('Invoices', function ($q) use ($request) {
+//                        $q->whereHas('Order', function ($d) {
+//                            $d->whereHas('OrderItems');
 //                        });
-//
 //                    })
 
                     ->where('FiscalYearRef', 1405)
@@ -73,11 +72,10 @@ class MainController extends Controller
                         });
                     });
                 })
-                ->whereHas('invoices', function ($q) use ($request) {
-                    $q->whereHas('order', function ($d) {
-                        $d->whereHas('orderItems');
+                ->whereHas('Invoices', function ($q) use ($request) {
+                    $q->whereHas('Order', function ($d) {
+                        $d->whereHas('OrderItems');
                     });
-
                 })
                 ->where('FiscalYearRef', 1405)
 //            ->get();
@@ -88,9 +86,9 @@ class MainController extends Controller
                 ->where('State', 2)
 //            ->whereDate('StartDate',date(today()))
                 ->whereDate('StartDate', '>=', today()->subDays(1))
-                ->whereHas('invoices', function ($q) use ($request) {
-                    $q->whereHas('order', function ($d) {
-                        $d->whereHas('orderItems');
+                ->whereHas('Invoices', function ($q) use ($request) {
+                    $q->whereHas('Order', function ($d) {
+                        $d->whereHas('OrderItems');
                     });
                 })
                 ->where('FiscalYearRef', 1405)
@@ -129,7 +127,6 @@ class MainController extends Controller
                         });
                     });
                 })
-//                ->whereHas('Invoices')
                 ->whereHas('Invoices', function ($q) use ($request) {
                     $q->whereHas('Order', function ($d) {
                         $d->whereHas('OrderItems');
