@@ -19,7 +19,7 @@ class MainController extends Controller
     public function index(Request $request)
     {
         try {
-            if($request['mobile'] && $request['mobile']!=''){
+            if ($request['mobile'] && $request['mobile'] != '') {
                 $party = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
                     ->whereHas('Transporter', function ($q) {
                         $q->whereHas('Assignments');
@@ -28,14 +28,14 @@ class MainController extends Controller
 
                 //if there is an error, check if 2 visitors with same data both have transporters assigned/
 
-                if($party){
-                    return response(new PartyResource($party),200);
-                }else{
+                if ($party) {
+                    return response(new PartyResource($party), 200);
+                } else {
                     $p = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
                         ->whereHas('Transporter')->first();
-                    return response(new PartyResource2($p),200);
+                    return response(new PartyResource2($p), 200);
                 }
-            }else{
+            } else {
 //                $i = Tour::whereIn('TourID',[368690,367682])->get();
 //                return TourResource::collection($i);
                 $dat = Tour::orderByDESC('TourID')
@@ -79,7 +79,6 @@ class MainController extends Controller
                     });
 
                 })
-
                 ->where('FiscalYearRef', 1405)
 //            ->get();
                 ->paginate(100);
@@ -117,23 +116,33 @@ class MainController extends Controller
         }
     }
 
-    public function store(Request $request)
+    public function test(Request $request)
     {
-        //
+        try {
+            $dat = Tour::orderByDESC('TourID')
+//                ->where('State', 2)
+//                ->whereDate('StartDate', date(today()))
+                ->whereHas('TourAssignmentItem', function ($z) use ($request) {
+                    $z->whereHas('Assignment', function ($x) use ($request) {
+                        $x->whereHas('Transporter', function ($y) use ($request) {
+                            $y->WhereHas('Party');
+                        });
+                    });
+                })
+                ->whereHas('invoices', function ($q) use ($request) {
+                    $q->whereHas('order', function ($d) {
+                        $d->whereHas('orderItems');
+                    });
+
+                })
+                ->where('FiscalYearRef', 1405)
+                ->paginate(100);
+
+        } catch (\Exception $exception) {
+            return response($exception);
+
+        }
     }
 
-    public function show(string $id)
-    {
-        //
-    }
 
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    public function destroy(string $id)
-    {
-        //
-    }
 }
