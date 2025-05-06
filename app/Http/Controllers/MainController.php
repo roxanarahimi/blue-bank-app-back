@@ -36,8 +36,6 @@ class MainController extends Controller
                     return response(new PartyResource2($p), 200);
                 }
             } else {
-//                $i = Tour::whereIn('TourID',[368690,367682])->get();
-//                return TourResource::collection($i);
                 $dat = Tour::orderByDESC('TourID')
                     ->where('State', 2)
                     ->whereDate('StartDate', date(today()))
@@ -57,50 +55,9 @@ class MainController extends Controller
 
                     ->where('FiscalYearRef', 1405)
                     ->paginate(100);
-
-
                 return TourResource2::collection($dat);
             }
 
-            $dat = Tour::orderByDESC('TourID')
-                ->where('State', 2)
-                ->whereDate('StartDate', date(today()->subDays(2)))
-                ->whereHas('TourAssignmentItem', function ($z) use ($request) {
-                    $z->whereHas('Assignment', function ($x) use ($request) {
-                        $x->whereHas('Transporter', function ($y) use ($request) {
-                            $y->WhereHas('Party');
-                        });
-                    });
-                })
-                ->whereHas('Invoices', function ($q) use ($request) {
-                    $q->whereHas('Order', function ($d) {
-                        $d->whereHas('OrderItems');
-                    });
-                })
-                ->where('FiscalYearRef', 1405)
-//            ->get();
-                ->paginate(100);
-
-            return TourResource::collection($dat);
-            $dat = Tour::orderByDESC('TourID')
-                ->where('State', 2)
-//            ->whereDate('StartDate',date(today()))
-                ->whereDate('StartDate', '>=', today()->subDays(1))
-                ->whereHas('Invoices', function ($q) use ($request) {
-                    $q->whereHas('Order', function ($d) {
-                        $d->whereHas('OrderItems');
-                    });
-                })
-                ->where('FiscalYearRef', 1405)
-//            ->paginate(100);
-                ->take(10)->get();
-            return TourResource::collection($dat);
-
-
-            $dat = Transporter::orderByDESC('TransporterID')->first();
-            return new TransporterResource($dat);
-            $dat = Tour::orderByDESC('TourID')->whereHas('invoices')->paginate(50);
-            return TourResource::collection($dat);
 
             $dat = DB::connection('sqlsrv')->table('LGS3.Transporter')->select("TransporterID")
                 ->first();
