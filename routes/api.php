@@ -12,6 +12,6 @@ Route::get('/tst', function (Request $request) {
 });
 
 Route::controller(App\Http\Controllers\MainController::class)->group(function () {
-    Route::post('/tours', 'index');
+    Route::post('/tours', 'tours');
     Route::get('/test', 'test');
 });
