@@ -22,7 +22,6 @@ class MainController extends Controller
     {
         try {
 
-
             if ($request['mobile'] && $request['mobile'] != '') {
                 $party = Party::orderByDESC('PartyID')
                     ->where('Mobile', $request['mobile'])
@@ -156,101 +155,6 @@ class MainController extends Controller
         }
     }
 
-    public function tours1(Request $request)
-    {
-        try {
-            if ($request['mobile'] && $request['mobile'] != '') {
-                $party = Party::orderByDESC('PartyID')
-                    ->where('Mobile', $request['mobile'])
-                    ->whereHas('Broker')
-                    ->first();
-
-                //if there is an error, check if 2 visitors with same data both have transporters assigned/
-
-
-                if ($party) {
-                    if ($party->Broker->State == 2){
-                        return response(new PartyResource($party), 200);
-                    }elseif ($party->Broker->State == 1){
-                        return response(['message'=>'این کاربر غیر فعال است'], 403);
-                    }
-                } else {
-                    return response(['message'=>'کاربری با این شماره وجود ندارد'], 404);
-//                    $p = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
-//                        ->whereHas('Broker')->first();
-//                    return response(new PartyResource2($p), 200);
-                }
-            } else {
-                $dat = Tour::orderByDESC('TourID')
-                    ->where('State', 2)
-                    ->whereDate('StartDate', date(today()))
-                    ->whereHas('TourAssignmentItem', function ($z) use ($request) {
-                        $z->whereHas('Assignment', function ($a) use ($request) {
-                            $a->whereHas('Transporter', function ($t) use ($request) {
-                                $t->WhereHas('Party');
-                            });
-                            $a->whereHas('Broker', function ($p) use ($request) {
-                                $p->WhereHas('Party', function ($pm) use ($request) {
-                                    if (isset($request['mobile'])) {
-                                        $pm->where('Mobile', $request['mobile']);
-                                    }
-                                });
-                            });
-                        });
-                    })
-
-//                    ->whereHas('Invoices', function ($q) use ($request) {
-//                        $q->whereHas('Order', function ($d) {
-//                            $d->whereHas('OrderItems');
-//                        });
-//                    })
-
-                    ->where('FiscalYearRef', 1405)
-                    ->paginate(100);
-
-
-                return TourResource2::collection($dat);
-            }
-
-            $dat = Tour::orderByDESC('TourID')
-                ->where('State', 2)
-                ->whereDate('StartDate', date(today()->subDays(2)))
-                ->whereHas('TourAssignmentItem', function ($z) use ($request) {
-                    $z->whereHas('Assignment', function ($x) use ($request) {
-                        $x->whereHas('Transporter', function ($y) use ($request) {
-                            $y->WhereHas('Party');
-                        });
-                    });
-                })
-                ->whereHas('Invoices', function ($q) use ($request) {
-                    $q->whereHas('Order', function ($d) {
-                        $d->whereHas('OrderItems');
-                    });
-                })
-                ->where('FiscalYearRef', 1405)
-//            ->get();
-                ->paginate(100);
-
-            return TourResource::collection($dat);
-
-
-            $dat = Transporter::orderByDESC('TransporterID')->first();
-            return new TransporterResource($dat);
-            $dat = Tour::orderByDESC('TourID')->whereHas('invoices')->paginate(50);
-            return TourResource::collection($dat);
-
-            $dat = DB::connection('sqlsrv')->table('LGS3.Transporter')->select("TransporterID")
-                ->first();
-            $dat = DB::connection('sqlsrv')->table('DSD3.Tour')->select("TourID")
-                ->first();
-            return $dat;
-
-        } catch (\Exception $exception) {
-            return response($exception);
-
-        }
-    }
-
     public function test(Request $request)
     {
         try {
@@ -303,11 +207,9 @@ class MainController extends Controller
                 return TourResource2::collection($dat);
 
             }
-
-
             $dat = Tour::orderByDESC('TourID')
-//                ->where('State', 2)
-//                ->whereDate('StartDate', date(today()))
+                ->where('State', 2)
+                ->whereDate('StartDate', date(today()))
                 ->whereHas('TourAssignmentItem', function ($z) use ($request) {
                     $z->whereHas('Assignment', function ($a) use ($request) {
                         $a->whereHas('Broker', function ($p) use ($request) {
@@ -329,7 +231,7 @@ class MainController extends Controller
                     });
                 })
                 ->where('FiscalYearRef', 1405)
-                ->take(10)->get();
+                ->take(100)->get();
 
             return TourResource2::collection($dat);
 
