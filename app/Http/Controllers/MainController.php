@@ -103,9 +103,6 @@ class MainController extends Controller
     public function test(Request $request)
     {
         try {
-            $party = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
-                ->get();
-            return $party;
             $dat = Tour::orderByDESC('TourID')
 //                ->where('State', 2)
 //                ->whereDate('StartDate', date(today()))
