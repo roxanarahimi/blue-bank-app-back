@@ -109,15 +109,14 @@ class MainController extends Controller
                 ->whereHas('TourAssignmentItem', function ($w) use ($request) {
                     $w->whereHas('Assignment', function ($x) use ($request) {
                         $x->whereHas('Transporter', function ($y) use ($x, $request) {
+                            $fullName = $x->FirstName.' '.$x->LastName;
                             if(isset($request['mobile'])){
                                 $y->WhereHas('Party',function ($z) use ($request) {
                                     $z->where('Mobile',$request['mobile']);
                                 });
-
                             }else{
 //                                $y->WhereHas('Party');
-                                $y->WhereHas('Party',function ($z) use ($x, $request) {
-                                    $fullName = $x['FirstName'].' '.$x['LastName'];
+                                $y->WhereHas('Party',function ($z) use ($fullName, $request) {
                                     $z->where('FullName','!=', $fullName);
                                 });
                             }
