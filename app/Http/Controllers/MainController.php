@@ -203,12 +203,11 @@ class MainController extends Controller
                 $party = Party::orderByDESC('PartyID')
                     ->where('Mobile', $request['mobile'])
                     ->whereHas('Broker')
+                    ->with('Broker')
                     ->first();
 
-                //if there is an error, check if 2 visitors with same data both have transporters assigned/
-
-
                 if ($party) {
+                    return $party;
                     if ($party->Broker->State == 2){
                         return response(['PartyResource3',new PartyResource3($party)], 200);
                     }elseif ($party->Broker->State == 1){
