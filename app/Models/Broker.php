@@ -20,7 +20,8 @@ class Broker extends Model
             ->whereHas('TourAssignmentItem',function ($a){
                 $a->whereHas('Tour');
                 $a->with('Tour');
-            });
+            })
+            ->with('TourAssignmentItem');
 ////            ->whereHas('TourAssignmentItem',function ($a){
 //                $a->whereHas('Tour',function ($t){
 //                    $t->where('State', 2);
