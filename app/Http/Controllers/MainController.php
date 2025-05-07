@@ -104,7 +104,9 @@ class MainController extends Controller
     {
         try {
             $party = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
-                ->whereHas('Broker')
+                ->whereHas('Broker', function ($q) {
+                    $q->where('State', 2);
+                })
                 ->get();
             return $party;
             $dat = Tour::orderByDESC('TourID')

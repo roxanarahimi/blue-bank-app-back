@@ -32,7 +32,7 @@ class Party extends Model
     }
     public function Broker()
     {
-        return $this->belongsTo(Broker::class,'PartyID','PartyRef')->where('State','=',2);
+        return $this->hasMany(Broker::class,'PartyRef','PartyID');
 
     }
 }
