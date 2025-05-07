@@ -22,10 +22,9 @@ class MainController extends Controller
     {
         try {
             if ($request['mobile'] && $request['mobile'] != '') {
-                $party = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
-                    ->whereHas('Transporter', function ($q) {
-                        $q->whereHas('Assignments');
-                    })
+                $party = Party::orderByDESC('PartyID')
+                    ->where('Mobile', $request['mobile'])
+                    ->whereHas('Broker')
                     ->first();
 
                 //if there is an error, check if 2 visitors with same data both have transporters assigned/

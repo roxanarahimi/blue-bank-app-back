@@ -14,4 +14,8 @@ class Broker extends Model
     {
         return $this->hasOne(Party::class,  'PartyID','PartyRef');
     }
+    public function Assignment()
+    {
+        return $this->belongsTo(Assignment::class, 'BrokerRef', 'BrokerID');
+    }
 }
