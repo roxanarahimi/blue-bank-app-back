@@ -30,9 +30,9 @@ class Party extends Model
 //            });
 
     }
-    public function Brokers()
+    public function Broker()
     {
-        return $this->hasMany(Broker::class,'PartyRef','PartyID');
+        return $this->hasOne(Broker::class,'PartyRef','PartyID');
 
     }
 }
