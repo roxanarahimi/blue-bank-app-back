@@ -104,24 +104,27 @@ class MainController extends Controller
     {
         try {
 //            $b = Broker::orderByDESC('BrokerID')->where('PartyRef',"563")->get();
-//            return $b;
-            $party = Party::orderByDESC('Mobile')
-                ->whereHas('Broker')
-
-                //                ->where('Mobile',$request['mobile'])
-                ->with('Broker')
-                ->take(100)
-                ->get();
-            return $party;
+////            return $b;
+//            $party = Party::orderByDESC('Mobile')
+//                ->whereHas('Broker')
+//
+//                //                ->where('Mobile',$request['mobile'])
+//                ->with('Broker')
+//                ->take(100)
+//                ->get();
+//            return $party;
             $dat = Tour::orderByDESC('TourID')
 //                ->where('State', 2)
 //                ->whereDate('StartDate', date(today()))
                 ->whereHas('TourAssignmentItem', function ($z) use ($request) {
                     $z->whereHas('Assignment', function ($a) use ($request) {
                         $a->whereHas('Transporter', function ($t) use ($request) {
-                            $t->WhereHas('Party', function ($p) use ($request) {
+                            $t->WhereHas('Party');
+                        });
+                        $a->whereHas('Broker', function ($p) use ($request) {
+                            $p->WhereHas('Party', function ($pm) use ($request) {
                                 if (isset($request['mobile'])) {
-                                    $p->where('Mobile', $request['mobile']);
+                                    $pm->where('Mobile', $request['mobile']);
                                 }
                             });
                         });
