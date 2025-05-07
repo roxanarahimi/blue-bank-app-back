@@ -203,9 +203,9 @@ class MainController extends Controller
                 $party = Party::orderByDESC('PartyID')
                     ->where('Mobile', $request['mobile'])
                     ->whereHas('Broker')
-//                    ->with('Broker')
+                    ->with('Broker')
                     ->get();
-                return $party->broker();
+                return $party->broker;
 
                 if ($party) {
 
