@@ -29,6 +29,8 @@ class TourResource2 extends JsonResource
 
 
             "Transporter" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->FullName,
+            "TransporterMobile" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->Mobile,
+
 //            "Transporter" => $this->TourAssignmentItem?->Assignment?->Transporter?->FirstName.' '.$this->TourAssignmentItem?->Assignment?->Transporter?->LastName,
 //            "PartyID" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->PartyID,
 //            "PartyNumber" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->Number,
