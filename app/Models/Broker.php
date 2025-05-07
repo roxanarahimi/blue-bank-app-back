@@ -16,6 +16,13 @@ class Broker extends Model
     }
     public function Assignments()
     {
-        return $this->hasMany(Assignment::class, 'BrokerRef', 'BrokerID');
+        return $this->hasMany(Assignment::class, 'BrokerRef', 'BrokerID')
+//        return $this->hasMany(Assignment::class,  'TransporterRef','TransporterID')
+            ->whereHas('TourAssignmentItem',function ($a){
+                $a->whereHas('Tour',function ($t){
+                    $t->where('State', 2);
+                    $t->whereDate('StartDate', date(today()));
+                });
+            });
     }
 }
