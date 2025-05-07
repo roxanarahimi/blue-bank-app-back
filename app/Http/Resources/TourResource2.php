@@ -24,6 +24,7 @@ class TourResource2 extends JsonResource
             "State" => $this->State,
             "Transporter" => $this->TourAssignmentItem?->Assignment?->Transporter?->FirstName.' '.$this->TourAssignmentItem?->Assignment?->Transporter?->LastName,
             "PartyID" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->PartyID,
+            "PartyNumber" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->Number,
             "Party" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->FullName,
             "Mobile" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->Mobile,
             "CreationDate" => (new DateController)->toPersian(date($this->CreationDate)),
