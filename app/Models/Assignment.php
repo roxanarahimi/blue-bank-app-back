@@ -17,4 +17,8 @@ class Assignment extends Model
     {
         return $this->hasOne(TourAssignmentItem::class, 'AssignmentRef', 'AssignmentID');
     }
+    public function Broker()
+    {
+        return $this->hasOne(Broker::class, 'BrokerID', 'BrokerRef');
+    }
 }
