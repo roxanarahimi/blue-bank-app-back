@@ -205,9 +205,10 @@ class MainController extends Controller
                     ->whereHas('Broker')
                     ->with('Broker')
                     ->get();
+//                return $party;
+                return response(['PartyResource3',new PartyResource3($party)], 200);
 
                 if ($party) {
-                    return $party;
                     if ($party->Broker->State == 2){
                         return response(['PartyResource3',new PartyResource3($party)], 200);
                     }elseif ($party->Broker->State == 1){
