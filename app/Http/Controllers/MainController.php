@@ -110,7 +110,7 @@ class MainController extends Controller
 //                ->whereHas('Brokers',function ($q){
 //                    return $q->count()==2;
 //                })
-                ->has('Brokers', '=', 1)
+                ->has('Brokers', '>', 1)
 
                 //                ->where('Mobile',$request['mobile'])
                 ->with('Brokers')
