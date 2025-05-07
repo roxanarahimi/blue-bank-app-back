@@ -104,8 +104,8 @@ class MainController extends Controller
     public function test(Request $request)
     {
         try {
-            $party = Broker::orderByDESC('BrokerID')->take(10)->get();
-            return $party;
+            $b = Broker::orderByDESC('BrokerID')->take(10)->get();
+            return $b;
             $party = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
                 ->whereHas('Broker', function ($q) {
                     $q->where('State', 2);

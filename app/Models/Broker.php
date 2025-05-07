@@ -10,8 +10,8 @@ class Broker extends Model
     protected $table = 'SLS3.Broker';
     protected $hidden = ['Version'];
 
-    public function Party()
-    {
-        return $this->BelongsTo(Party::class,  'PartyID','PartyRef');
-    }
+//    public function Party()
+//    {
+//        return $this->BelongsTo(Party::class,  'PartyID','PartyRef');
+//    }
 }
