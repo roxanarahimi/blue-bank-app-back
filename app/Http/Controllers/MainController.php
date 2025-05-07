@@ -33,7 +33,7 @@ class MainController extends Controller
                     return response(new PartyResource($party), 200);
                 } else {
                     $p = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
-                        ->whereHas('Transporter')->first();
+                        ->whereHas('Broker')->first();
                     return response(new PartyResource2($p), 200);
                 }
             } else {
