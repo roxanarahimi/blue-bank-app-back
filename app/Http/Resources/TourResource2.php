@@ -22,25 +22,13 @@ class TourResource2 extends JsonResource
             "StartDate" => (new DateController)->toPersian($this->StartDate),
             "EndDate" => $this->$end,
             "State" => $this->State,
-            "BrokerName" => $this->TourAssignmentItem?->Assignment?->Broker?->Party?->FullName,
-            "BrokerMobile" => $this->TourAssignmentItem?->Assignment?->Broker?->Party?->Mobile,
-            "BrokerPartyPartyID" => $this->TourAssignmentItem?->Assignment?->Broker?->Party?->PartyID,
-//            "Broker" => $this->TourAssignmentItem?->Assignment?->Broker,
-//            "BrokerParty" => $this->TourAssignmentItem?->Assignment?->Broker?->Party,
-
-
+            "CreationDate" => (new DateController)->toPersian(date($this->CreationDate)),
             "TransporterPartyID" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->PartyID,
             "Transporter" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->FullName,
             "TransporterMobile" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->Mobile,
-
-//            "Transporter" => $this->TourAssignmentItem?->Assignment?->Transporter?->FirstName.' '.$this->TourAssignmentItem?->Assignment?->Transporter?->LastName,
-//            "PartyID" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->PartyID,
-//            "PartyNumber" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->Number,
-//            "Party" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->FullName,
-//            "Mobile" => $this->TourAssignmentItem?->Assignment?->Transporter?->Party?->Mobile,
-            "CreationDate" => (new DateController)->toPersian(date($this->CreationDate)),
             "Invoices" => TourInvoiceResource::collection($this->Invoices),
-//            "TourAssignmentItem" => $this->TourAssignmentItem,
-        ];
+
+
+            ];
     }
 }

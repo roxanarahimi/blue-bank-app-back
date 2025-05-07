@@ -19,7 +19,7 @@ class PartyResource extends JsonResource
             "Number" => $this->Number,
             "FullName" => $this->FullName,
             "Mobile" => $this->Mobile,
-            "Tours" => TourAssignmentsResource::collection($this->Transporter->Assignments),
+            "Tours" => TourAssignmentsResource::collection($this->Broker->Assignments),
         ];
     }
 }
