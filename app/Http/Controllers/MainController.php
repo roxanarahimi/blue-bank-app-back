@@ -29,12 +29,18 @@ class MainController extends Controller
 
                 //if there is an error, check if 2 visitors with same data both have transporters assigned/
 
+
                 if ($party) {
-                    return response(new PartyResource($party), 200);
+                    if ($party->Broker->State == 2){
+                        return response(new PartyResource($party), 200);
+                    }elseif ($party->Broker->State == 1){
+                        return response(['message'=>'این کاربر غیر فعال است'], 403);
+                    }
                 } else {
-                    $p = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
-                        ->whereHas('Broker')->first();
-                    return response(new PartyResource2($p), 200);
+                    return response(['message'=>'کاربری با این شماره وجود ندارد'], 404);
+//                    $p = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
+//                        ->whereHas('Broker')->first();
+//                    return response(new PartyResource2($p), 200);
                 }
             } else {
                 $dat = Tour::orderByDESC('TourID')

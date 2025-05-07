@@ -20,11 +20,11 @@ class PartyResource extends JsonResource
             "FullName" => $this->FullName,
             "Mobile" => $this->Mobile,
 
-            "TransporterID" => $this->Transporter->TransporterID,
-            "TransporterCode" => $this->Transporter->Code,
-            "TransporterName" => $this->Transporter->FirstName . ' ' . $this->Transporter->LastName,
+//            "TransporterID" => $this->Transporter?->TransporterID,
+//            "TransporterCode" => $this->Transporter?->Code,
+//            "TransporterName" => $this->Transporter?->FirstName . ' ' . $this->Transporter->LastName,
 
-            "Tours" => TourAssignmentsResource::collection($this->Transporter->Assignments),
+            "Tours" => TourAssignmentsResource::collection($this->Broker->Assignments),
         ];
     }
 }
