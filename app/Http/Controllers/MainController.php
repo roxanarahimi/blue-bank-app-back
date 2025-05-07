@@ -108,7 +108,7 @@ class MainController extends Controller
 //            return $b;
             $party = Party::orderByDESC('Mobile')
                 ->whereHas('Brokers',function ($q){
-                    $q->where('State',1);
+                    return $q->count()==2;
                 })
 //                ->where('Mobile',$request['mobile'])
                 ->with('Brokers')
