@@ -41,9 +41,16 @@ class MainController extends Controller
                     ->where('State', 2)
                     ->whereDate('StartDate', date(today()))
                     ->whereHas('TourAssignmentItem', function ($z) use ($request) {
-                        $z->whereHas('Assignment', function ($x) use ($request) {
-                            $x->whereHas('Transporter', function ($y) use ($request) {
-                                $y->WhereHas('Party');
+                        $z->whereHas('Assignment', function ($a) use ($request) {
+                            $a->whereHas('Transporter', function ($t) use ($request) {
+                                $t->WhereHas('Party');
+                            });
+                            $a->whereHas('Broker', function ($p) use ($request) {
+                                $p->WhereHas('Party', function ($pm) use ($request) {
+                                    if (isset($request['mobile'])) {
+                                        $pm->where('Mobile', $request['mobile']);
+                                    }
+                                });
                             });
                         });
                     })
