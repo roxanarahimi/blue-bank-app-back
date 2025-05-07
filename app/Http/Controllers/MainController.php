@@ -103,6 +103,10 @@ class MainController extends Controller
     public function test(Request $request)
     {
         try {
+            $party = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
+                ->whereHas('Broker')
+                ->get();
+            return $party;
             $dat = Tour::orderByDESC('TourID')
 //                ->where('State', 2)
 //                ->whereDate('StartDate', date(today()))
@@ -117,11 +121,11 @@ class MainController extends Controller
                         });
                     });
                 })
-//                ->whereHas('Invoices', function ($q) use ($request) {
-//                    $q->whereHas('Order', function ($d) {
-//                        $d->whereHas('OrderItems');
-//                    });
-//                })
+                ->whereHas('Invoices', function ($q) use ($request) {
+                    $q->whereHas('Order', function ($d) {
+                        $d->whereHas('OrderItems');
+                    });
+                })
                 ->where('FiscalYearRef', 1405)
                 ->take(10)->get();
 
