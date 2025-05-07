@@ -126,7 +126,7 @@ class MainController extends Controller
 //                    });
 //                })
                 ->where('FiscalYearRef', 1405)
-                ->take(10)->get();
+                ->take(100)->get();
 
             return TourResource2::collection($dat);
 
