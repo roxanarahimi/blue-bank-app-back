@@ -115,7 +115,7 @@ class MainController extends Controller
                                 });
 
                             }else{
-                                $y->WhereHas('Party');
+//                                $y->WhereHas('Party');
                                 $y->WhereHas('Party',function ($m) use ($y, $request) {
                                     $m->where('FullName','!=',$y['FirstName'].' '.$y['LastName']);
                                 });
