@@ -110,16 +110,16 @@ class MainController extends Controller
                     $w->whereHas('Assignment', function ($x) use ($request) {
                         $x->whereHas('Transporter', function ($y) use ($x, $request) {
                             $fullName = $x['FirstName'].' '.$x['LastName'];
-                            if(isset($request['mobile'])){
-                                $y->WhereHas('Party',function ($z) use ($request) {
-                                    $z->where('Mobile',$request['mobile']);
-                                });
-                            }else{
-//                                $y->WhereHas('Party');
+////                            if(isset($request['mobile'])){
+//                                $y->WhereHas('Party',function ($z) use ($request) {
+//                                    $z->where('Mobile',$request['mobile']);
+//                                });
+//                            }else{
+////                                $y->WhereHas('Party');
                                 $y->WhereHas('Party',function ($z) use ($fullName, $request) {
                                     $z->where('FullName','!=', $fullName);
                                 });
-                            }
+//                            }
                         });
                     });
                 })
