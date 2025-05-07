@@ -205,7 +205,7 @@ class MainController extends Controller
                     ->whereHas('Broker')
                     ->with('Broker')
                     ->get();
-                return $party->broker;
+                return $party['broker'];
 
                 if ($party) {
 
