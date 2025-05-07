@@ -110,7 +110,7 @@ class MainController extends Controller
                 ->whereHas('Broker')
 
                 //                ->where('Mobile',$request['mobile'])
-                ->with('Brokers')
+                ->with('Broker')
                 ->take(100)
                 ->get();
             return $party;
