@@ -204,8 +204,7 @@ class MainController extends Controller
                     ->where('Mobile', $request['mobile'])
                     ->whereHas('Broker')
                     ->with('Broker')
-                    ->get();
-                return $party['broker'];
+                    ->first();
 
                 if ($party) {
 
