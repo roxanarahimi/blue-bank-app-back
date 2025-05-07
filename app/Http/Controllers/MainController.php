@@ -82,7 +82,6 @@ class MainController extends Controller
             return TourResource::collection($dat);
 
 
-
             $dat = Transporter::orderByDESC('TransporterID')->first();
             return new TransporterResource($dat);
             $dat = Tour::orderByDESC('TourID')->whereHas('invoices')->paginate(50);
@@ -107,16 +106,13 @@ class MainController extends Controller
 //                ->where('State', 2)
 //                ->whereDate('StartDate', date(today()))
                 ->whereHas('TourAssignmentItem', function ($z) use ($request) {
-                    $z->whereHas('Assignment', function ($x) use ($request) {
-                        $x->whereHas('Transporter', function ($y) use ($request) {
-                            if(isset($request['mobile'])){
-                                $y->WhereHas('Party',function ($m) use ($request) {
-                                    $m->where('Mobile',$request['mobile']);
-                                });
-
-                            }else{
-                                $y->WhereHas('Party');
-                            }
+                    $z->whereHas('Assignment', function ($a) use ($request) {
+                        $a->whereHas('Transporter', function ($t) use ($request) {
+                            $t->WhereHas('Party', function ($p) use ($request) {
+                                if (isset($request['mobile'])) {
+                                    $p->where('Mobile', $request['mobile']);
+                                }
+                            });
                         });
                     });
                 })
