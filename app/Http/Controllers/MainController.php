@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Resources\PartyResource;
 use App\Http\Resources\PartyResource2;
+use App\Http\Resources\PartyResource3;
 use App\Http\Resources\TourResource;
 use App\Http\Resources\TourResource2;
 use App\Http\Resources\TransporterResource;
@@ -198,6 +199,70 @@ class MainController extends Controller
     public function test(Request $request)
     {
         try {
+            if ($request['mobile'] && $request['mobile'] != '') {
+                $party = Party::orderByDESC('PartyID')
+                    ->where('Mobile', $request['mobile'])
+                    ->whereHas('Broker')
+                    ->first();
+
+                //if there is an error, check if 2 visitors with same data both have transporters assigned/
+
+
+                if ($party) {
+                    if ($party->Broker->State == 2){
+                        return response(new PartyResource3($party), 200);
+                    }elseif ($party->Broker->State == 1){
+                        return response(['message'=>'این کاربر غیر فعال است'], 403);
+                    }
+                } else {
+                    return response(['message'=>'کاربری با این شماره وجود ندارد'], 404);
+//                    $p = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
+//                        ->whereHas('Broker')->first();
+//                    return response(new PartyResource2($p), 200);
+                }
+            } else {
+                $dat = Tour::orderByDESC('TourID')
+                    ->where('State', 2)
+                    ->whereDate('StartDate', date(today()))
+                    ->whereHas('TourAssignmentItem', function ($z) use ($request) {
+                        $z->whereHas('Assignment', function ($a) use ($request) {
+                            $a->whereHas('Transporter', function ($t) use ($request) {
+                                $t->WhereHas('Party');
+                            });
+                            $a->whereHas('Broker', function ($p) use ($request) {
+                                $p->WhereHas('Party', function ($pm) use ($request) {
+                                    if (isset($request['mobile'])) {
+                                        $pm->where('Mobile', $request['mobile']);
+                                    }
+                                });
+                            });
+                        });
+                    })
+
+//                    ->whereHas('Invoices', function ($q) use ($request) {
+//                        $q->whereHas('Order', function ($d) {
+//                            $d->whereHas('OrderItems');
+//                        });
+//                    })
+
+                    ->where('FiscalYearRef', 1405)
+                    ->paginate(100);
+
+
+                return TourResource2::collection($dat);
+            }
+
+
+
+
+
+
+
+
+
+
+
+
             $dat = Tour::orderByDESC('TourID')
 //                ->where('State', 2)
 //                ->whereDate('StartDate', date(today()))
