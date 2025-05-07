@@ -7,6 +7,7 @@ use App\Http\Resources\PartyResource2;
 use App\Http\Resources\TourResource;
 use App\Http\Resources\TourResource2;
 use App\Http\Resources\TransporterResource;
+use App\Models\Broker;
 use App\Models\Party;
 use App\Models\Tour;
 use App\Models\TourInvoice;
@@ -103,6 +104,9 @@ class MainController extends Controller
     public function test(Request $request)
     {
         try {
+            $party = Broker::where('PartyRef', 436)
+                ->get();
+            return $party;
             $party = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
                 ->whereHas('Broker', function ($q) {
                     $q->where('State', 2);
