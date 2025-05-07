@@ -222,8 +222,8 @@ class MainController extends Controller
                 }
             } else {
                 $dat = Tour::orderByDESC('TourID')
-                ->where('State', 2)
-                ->whereDate('StartDate', date(today()))
+//                ->where('State', 2)
+//                ->whereDate('StartDate', date(today()))
                     ->whereHas('TourAssignmentItem', function ($z) use ($request) {
                         $z->whereHas('Assignment', function ($a) use ($request) {
                             $a->whereHas('Broker', function ($p) use ($request) {
