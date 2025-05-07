@@ -222,13 +222,10 @@ class MainController extends Controller
                 }
             } else {
                 $dat = Tour::orderByDESC('TourID')
-                    ->where('State', 2)
-                    ->whereDate('StartDate', date(today()))
+//                ->where('State', 2)
+//                ->whereDate('StartDate', date(today()))
                     ->whereHas('TourAssignmentItem', function ($z) use ($request) {
                         $z->whereHas('Assignment', function ($a) use ($request) {
-                            $a->whereHas('Transporter', function ($t) use ($request) {
-                                $t->WhereHas('Party');
-                            });
                             $a->whereHas('Broker', function ($p) use ($request) {
                                 $p->WhereHas('Party', function ($pm) use ($request) {
                                     if (isset($request['mobile'])) {
@@ -236,20 +233,21 @@ class MainController extends Controller
                                     }
                                 });
                             });
+                            $a->whereHas('Transporter', function ($t) use ($request) {
+                                $t->WhereHas('Party');
+                            });
+
                         });
                     })
-
-//                    ->whereHas('Invoices', function ($q) use ($request) {
-//                        $q->whereHas('Order', function ($d) {
-//                            $d->whereHas('OrderItems');
-//                        });
-//                    })
-
+                    ->whereHas('Invoices', function ($q) use ($request) {
+                        $q->whereHas('Order', function ($d) {
+                            $d->whereHas('OrderItems');
+                        });
+                    })
                     ->where('FiscalYearRef', 1405)
-                    ->paginate(100);
-
-
+                    ->take(10)->get();
                 return TourResource2::collection($dat);
+
             }
 
 
