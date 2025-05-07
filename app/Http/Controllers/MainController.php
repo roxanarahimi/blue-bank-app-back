@@ -45,6 +45,7 @@ class MainController extends Controller
             } else {
                 $dat = Tour::orderByDESC('TourID')
                     ->where('State', 2)
+//                    ->whereDate('StartDate',date(today()))
                     ->whereDate('StartDate','>=', date(today()->subDays(2)))
                     ->whereHas('TourAssignmentItem', function ($z) use ($request) {
                         $z->whereHas('Assignment', function ($a) use ($request) {
@@ -118,7 +119,8 @@ class MainController extends Controller
 
             $dat = Tour::orderByDESC('TourID')
                 ->where('State', 2)
-                ->whereDate('StartDate', date(today()->subDays(2)))
+//                    ->whereDate('StartDate',date(today()))
+                ->whereDate('StartDate','>=', date(today()->subDays(2)))
                 ->whereHas('TourAssignmentItem', function ($z) use ($request) {
                     $z->whereHas('Assignment', function ($x) use ($request) {
                         $x->whereHas('Transporter', function ($y) use ($request) {
@@ -160,7 +162,8 @@ class MainController extends Controller
         try {
             $dat = Tour::orderByDESC('TourID')
                 ->where('State', 2)
-                ->whereDate('StartDate', date(today()))
+//                    ->whereDate('StartDate',date(today()))
+                ->whereDate('StartDate','>=', date(today()->subDays(2)))
                 ->whereHas('TourAssignmentItem', function ($z) use ($request) {
                     $z->whereHas('Assignment', function ($a) use ($request) {
                         $a->whereHas('Broker', function ($p) use ($request) {
