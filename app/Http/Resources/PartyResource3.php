@@ -19,7 +19,6 @@ class PartyResource3 extends JsonResource
             "Number" => $this->Number,
             "FullName" => $this->FullName,
             "Mobile" => $this->Mobile,
-            "Assignments" => $this->Broker->Assignments,
             "Tours" => TourAssignmentsResource::collection($this->Broker->Assignments),
         ];
     }
