@@ -107,7 +107,8 @@ class MainController extends Controller
 //            $b = Broker::orderByDESC('BrokerID')->where('PartyRef',"563")->get();
 //            return $b;
             $party = Party::orderByDESC('PartyID')
-                ->whereHas('Brokers')
+//                ->whereHas('Brokers')
+                ->where('Mobile',$request['mobile'])
                 ->with('Brokers')
                 ->take(100)
                 ->get();
