@@ -108,7 +108,7 @@ class MainController extends Controller
 //                ->whereDate('StartDate', date(today()))
                 ->whereHas('TourAssignmentItem', function ($z) use ($request) {
                     $z->whereHas('Assignment', function ($x) use ($request) {
-                        $x->whereHas('Transporter', function ($y) use ($request) {
+                        $x->whereHas('Transporter', function ($y) use ($x, $request) {
                             if(isset($request['mobile'])){
                                 $y->WhereHas('Party',function ($m) use ($request) {
                                     $m->where('Mobile',$request['mobile']);
@@ -116,8 +116,9 @@ class MainController extends Controller
 
                             }else{
 //                                $y->WhereHas('Party');
-                                $y->WhereHas('Party',function ($m) use ($y, $request) {
-                                    $m->where('FullName','!=',$y['FirstName'].' '.$y['LastName']);
+                                $y->WhereHas('Party',function ($m) use ($x, $request) {
+                                    $fullName = $x['FirstName'].' '.$x['LastName'];
+                                    $m->where('FullName','!=', $fullName);
                                 });
                             }
                         });
