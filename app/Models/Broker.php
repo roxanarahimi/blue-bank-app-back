@@ -18,13 +18,13 @@ class Broker extends Model
     {
         return $this->hasMany(Assignment::class,  'BrokerRef','BrokerID')
             ->whereHas('TourAssignmentItem',function ($a){
-                $a->whereHas('Tour',function ($t){
-                    $t->where('State', 2);
-                    $t->whereDate('StartDate', date(today()));
-                });
-            })
-            ->with('TourAssignmentItem',function ($q){
-                $q->with('Tour');
+//                $a->whereHas('Tour',function ($t){
+//                    $t->where('State', 2);
+//                    $t->whereDate('StartDate', date(today()));
+//                });
             });
+//            ->with('TourAssignmentItem',function ($q){
+//                $q->with('Tour');
+//            });
     }
 }
