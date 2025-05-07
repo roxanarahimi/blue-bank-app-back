@@ -106,19 +106,19 @@ class MainController extends Controller
             $dat = Tour::orderByDESC('TourID')
 //                ->where('State', 2)
 //                ->whereDate('StartDate', date(today()))
-                ->whereHas('TourAssignmentItem', function ($z) use ($request) {
-                    $z->whereHas('Assignment', function ($x) use ($request) {
+                ->whereHas('TourAssignmentItem', function ($w) use ($request) {
+                    $w->whereHas('Assignment', function ($x) use ($w, $request) {
                         $x->whereHas('Transporter', function ($y) use ($x, $request) {
                             if(isset($request['mobile'])){
-                                $y->WhereHas('Party',function ($m) use ($request) {
-                                    $m->where('Mobile',$request['mobile']);
+                                $y->WhereHas('Party',function ($z) use ($x, $request) {
+                                    $z->where('Mobile',$request['mobile']);
                                 });
 
                             }else{
 //                                $y->WhereHas('Party');
-                                $y->WhereHas('Party',function ($m) use ($x, $request) {
+                                $y->WhereHas('Party',function ($z) use ($x, $request) {
                                     $fullName = $x['FirstName'].' '.$x['LastName'];
-                                    $m->where('FullName','!=', $fullName);
+                                    $z->where('FullName','!=', $fullName);
                                 });
                             }
                         });
