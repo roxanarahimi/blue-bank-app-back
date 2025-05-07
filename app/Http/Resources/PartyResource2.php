@@ -17,7 +17,6 @@ class PartyResource2 extends JsonResource
         return [
             "FullName" => $this->FullName,
             "Mobile" => $this->Mobile,
-            "TransporterName" => $this->Transporter?->FirstName . ' ' . $this->Transporter?->LastName,
             "Tours" => [],
         ];
     }
