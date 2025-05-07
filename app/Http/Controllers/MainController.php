@@ -13,6 +13,7 @@ use App\Models\TourInvoice;
 use App\Models\Transporter;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use phpDocumentor\Reflection\Types\Collection;
 
 class MainController extends Controller
 {
@@ -102,6 +103,12 @@ class MainController extends Controller
     public function test(Request $request)
     {
         try {
+            $party = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
+                ->whereHas('Transporter', function ($q) {
+                    $q->whereHas('Assignments');
+                })
+                ->get();
+            return $party;
             $dat = Tour::orderByDESC('TourID')
 //                ->where('State', 2)
 //                ->whereDate('StartDate', date(today()))
