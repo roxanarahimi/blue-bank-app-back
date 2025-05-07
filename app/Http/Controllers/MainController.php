@@ -204,10 +204,10 @@ class MainController extends Controller
                     ->where('Mobile', $request['mobile'])
                     ->whereHas('Broker')
                     ->with('Broker')
-                    ->first();
+                    ->get();
 
                 if ($party) {
-                    return $party;
+//                    return $party;
                     if ($party->Broker->State == 2){
                         return response(['PartyResource3',new PartyResource3($party)], 200);
                     }elseif ($party->Broker->State == 1){
