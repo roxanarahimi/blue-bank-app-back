@@ -12,6 +12,6 @@ class Broker extends Model
 
     public function Party()
     {
-        return $this->hasOne(Party::class,  'PartyID','PartyRef');
+        return $this->belongsTo(Party::class,  'PartyID','PartyRef');
     }
 }
