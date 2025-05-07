@@ -22,9 +22,9 @@ class Broker extends Model
                     $t->where('State', 2);
                     $t->whereDate('StartDate', date(today()));
                 });
+            })
+            ->with('TourAssignmentItem',function ($q){
+                $q->with('Tour');
             });
-//            ->with('TourAssignmentItem',function ($q){
-//                $q->with('Tour');
-//            });
     }
 }
