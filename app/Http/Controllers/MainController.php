@@ -120,13 +120,13 @@ class MainController extends Controller
                         });
                     });
                 })
-//                ->whereHas('Invoices', function ($q) use ($request) {
-//                    $q->whereHas('Order', function ($d) {
-//                        $d->whereHas('OrderItems');
-//                    });
-//                })
+                ->whereHas('Invoices', function ($q) use ($request) {
+                    $q->whereHas('Order', function ($d) {
+                        $d->whereHas('OrderItems');
+                    });
+                })
                 ->where('FiscalYearRef', 1405)
-                ->take(100)->get();
+                ->take(10)->get();
 
             return TourResource2::collection($dat);
 
