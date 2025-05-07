@@ -106,12 +106,11 @@ class MainController extends Controller
         try {
 //            $b = Broker::orderByDESC('BrokerID')->where('PartyRef',"563")->get();
 //            return $b;
-//            $party = Party::orderByDESC('PartyID')->where('Mobile', $request['mobile'])
-//                ->whereHas('Broker', function ($q) {
-//                    $q->where('State', 2);
-//                })
-//                ->get();
-//            return $party;
+            $party = Party::orderByDESC('PartyID')->where('PartyID', $request['PartyID'])
+//                ->whereHas('Brokers')
+                ->with('Brokers')
+                ->get();
+            return $party;
             $dat = Tour::orderByDESC('TourID')
 //                ->where('State', 2)
 //                ->whereDate('StartDate', date(today()))
