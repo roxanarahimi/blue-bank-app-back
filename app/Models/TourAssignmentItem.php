@@ -14,7 +14,7 @@ class TourAssignmentItem extends Model
     {
         return $this->hasOne(Tour::class, 'TourID', 'TourRef')
             ->where('State',2)
-            ->whereDate('StartDate',date(today()));
+            ->whereDate('StartDate',date(today()->subDays(3)));
     }
     public function Assignment()
     {
