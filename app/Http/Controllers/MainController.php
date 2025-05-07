@@ -32,7 +32,7 @@ class MainController extends Controller
                 if ($party) {
 
                     if ($party->Broker->State == 2){
-                        return response(['PartyResource3',new PartyResource3($party)], 200);
+                        return response(new PartyResource3($party), 200);
                     }elseif ($party->Broker->State == 1){
                         return response(['message'=>'این کاربر غیر فعال است'], 403);
                     }
